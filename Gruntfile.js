@@ -12,9 +12,10 @@ module.exports = function(grunt){
     grunt.initConfig({
         text2js: {
             dist: {
-                src: "./test/test.yaml",
+                src: "./test/test.txt",
                 dest: "./test/test.js",
-                namespace: "testing"
+                namespace: "testing",
+                amd: true
             }
         }
     });

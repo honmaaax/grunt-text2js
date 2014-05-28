@@ -13,15 +13,16 @@ module.exports = function(grunt){
         var _options = this.data;
         // ファイル読み込み
         var _text = grunt.file.read(_options.src);
-        // エスケープ＆テンプレートに置換して代入
-        var _escaped = _text.replace(/'/g, "\\'");
-        var _string;
+        // エスケープ
+        var _escaped = JSON.stringify(_text);
+        // テンプレートに置換
+        var _output;
         if( _options.amd ){
-            _string = "define(" + _escaped + ");";
+            _output = "define({" + _options.namespace + ":" + _escaped + "});";
         } else {
-            _string = _options.namespace + "='" + _escaped + "';";
+            _output = _options.namespace + "=" + _escaped + ";";
         }
         // JSファイルに書き込み
-        grunt.file.write(_options.dest, _string);
+        grunt.file.write(_options.dest, _output);
     });
 };
