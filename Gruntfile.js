@@ -14,7 +14,20 @@ module.exports = function(grunt){
             dist: {
                 src: "./test/test.txt",
                 dest: "./test/test.js",
-                namespace: "testing",
+                namespace: "testingA",
+                amd: true
+            },
+            some: {
+                files: [
+                    {
+                        src: "./test/test.txt",
+                        dest: "./test/test.js"
+                    }, {
+                        src: "./test2/test.txt",
+                        dest: "./test2/test.js"
+                    }
+                ],
+                namespace: "testingB",
                 amd: true
             }
         }

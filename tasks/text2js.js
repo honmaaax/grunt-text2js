@@ -9,20 +9,30 @@
 'use strict';
 
 module.exports = function(grunt){
-    grunt.registerMultiTask('text2js', 'Compile Text to JS', function(){
-        var _options = this.data;
+    var options = {};
+    var text2js = function(file){
         // ファイル読み込み
-        var _text = grunt.file.read(_options.src);
+        var _text = grunt.file.read(file.src);
         // エスケープ
         var _escaped = JSON.stringify(_text);
         // テンプレートに置換
         var _output;
-        if( _options.amd ){
-            _output = "define({" + _options.namespace + ":" + _escaped + "});";
+        if( options.amd ){
+            _output = "define({" + options.namespace + ":" + _escaped + "});";
         } else {
-            _output = _options.namespace + "=" + _escaped + ";";
+            _output = options.namespace + "=" + _escaped + ";";
         }
         // JSファイルに書き込み
-        grunt.file.write(_options.dest, _output);
+        grunt.file.write(file.dest, _output);
+    };
+    grunt.registerMultiTask('text2js', 'Compile Text to JS', function(){
+        options = this.data;
+        if( options.files ){
+            options.files.forEach(function(file){
+                text2js(file);
+            });
+        } else {
+            text2js(options);
+        }
     });
 };
